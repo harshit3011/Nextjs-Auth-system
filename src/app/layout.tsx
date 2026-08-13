@@ -23,7 +23,14 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="min-h-full flex flex-col">{children}</body>
+      <body className="min-h-full flex flex-col">
+        <script
+          dangerouslySetInnerHTML={{
+            __html: `;(function(){try{var d=document.documentElement;d.removeAttribute('data-darkreader-mode');d.removeAttribute('data-darkreader-scheme');d.removeAttribute('data-darkreader-proxy-injected')}catch(e){}})()`,
+          }}
+        />
+        {children}
+      </body>
     </html>
   );
 }
