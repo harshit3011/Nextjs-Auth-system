@@ -3,14 +3,15 @@
 import Link from "next/link";
 import React from "react";
 
-export default function LoginPage() {
+export default function SignUpPage() {
   const [user, setUser] = React.useState({
     email: "",
     password: "",
+    username: "",
   });
 
-  const onLogin = async () => {
-  
+  const onSignUp = async () => {
+    // signup logic here
   };
 
   return (
@@ -18,16 +19,33 @@ export default function LoginPage() {
       <div className="w-full max-w-md rounded-2xl border border-gray-800 bg-gray-900 p-8 shadow-2xl">
         <div className="mb-8 text-center">
           <h1 className="text-3xl font-bold text-white">
-            Welcome back
+            Create your account
           </h1>
-
           <p className="mt-2 text-sm text-gray-400">
-            Login to your account!!
+            Join us and get started!!
           </p>
         </div>
 
         <div className="space-y-5">
-          {/* Email */}
+          <div>
+            <label
+              htmlFor="username"
+              className="mb-2 block text-sm font-medium text-gray-300"
+            >
+              Username
+            </label>
+
+            <input
+              id="username"
+              type="text"
+              placeholder="spidey123"
+              value={user.username}
+              onChange={(e) =>
+                setUser({ ...user, username: e.target.value })
+              }
+              className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
+            />
+          </div>
           <div>
             <label
               htmlFor="email"
@@ -66,25 +84,21 @@ export default function LoginPage() {
               className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
             />
           </div>
-
-          {/* Login Button */}
           <button
-            onClick={onLogin}
+            onClick={onSignUp}
             className="w-full rounded-lg bg-purple-600 py-3 font-semibold text-white transition hover:bg-purple-700 active:scale-[0.98]"
           >
-            Login
+            Create Account
           </button>
-
-          {/* Signup Link */}
           <p className="mt-6 text-center text-sm text-gray-400">
-            Don't have an account?{" "}
-            <Link
-              href="/signup"
-              className="font-medium text-purple-400 transition hover:text-purple-300"
-            >
-              Sign Up
-            </Link>
-          </p>
+          Already have an account?{" "}
+          <Link
+            href="/login"
+            className="font-medium text-purple-400 transition hover:text-purple-300"
+          >
+            Login
+          </Link>
+        </p>
         </div>
       </div>
     </div>
