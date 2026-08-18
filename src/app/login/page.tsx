@@ -1,17 +1,44 @@
 "use client";
 
+import axios from "axios";
 import Link from "next/link";
-import React from "react";
+import { useRouter } from "next/navigation";
+import React, { useEffect } from "react";
+import toast from "react-hot-toast";
+
 
 export default function LoginPage() {
+  const router = useRouter()
+  const [buttonDisabled, setButtonDisabled] = React.useState(false)
+  const [loading, setLoading] = React.useState(false)
   const [user, setUser] = React.useState({
     email: "",
     password: "",
   });
 
   const onLogin = async () => {
-  
+    try {
+      setLoading(true)
+      const response = await axios.post("api/users/login",user)
+      console.log("Login is successful", response.data);
+      toast.success("Successfully logged in")
+      router.push("/profile")
+    } catch (error: any) {
+      console.log("Login failed",error.message);
+      toast.error(error.message)
+    } finally{
+      setLoading(false)
+    }
   };
+
+  useEffect(()=>{
+      if(user.email.length>0 && user.password.length>0){
+        setButtonDisabled(false)
+      }
+      else{
+        setButtonDisabled(true)
+      }
+    },[user])
 
   return (
     <div className="flex min-h-screen items-center justify-center bg-gray-950 px-4">
@@ -22,12 +49,11 @@ export default function LoginPage() {
           </h1>
 
           <p className="mt-2 text-sm text-gray-400">
-            Login to your account!!
+            {loading? "Processing":"Create Your Account"}
           </p>
         </div>
 
         <div className="space-y-5">
-          {/* Email */}
           <div>
             <label
               htmlFor="email"
@@ -66,16 +92,12 @@ export default function LoginPage() {
               className="w-full rounded-lg border border-gray-700 bg-gray-800 px-4 py-3 text-white outline-none transition placeholder:text-gray-500 focus:border-purple-500 focus:ring-2 focus:ring-purple-500/20"
             />
           </div>
-
-          {/* Login Button */}
           <button
             onClick={onLogin}
             className="w-full rounded-lg bg-purple-600 py-3 font-semibold text-white transition hover:bg-purple-700 active:scale-[0.98]"
           >
-            Login
+            {buttonDisabled?"Can't Login Yet":"Login"}
           </button>
-
-          {/* Signup Link */}
           <p className="mt-6 text-center text-sm text-gray-400">
             Don't have an account?{" "}
             <Link
